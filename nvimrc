@@ -8,12 +8,13 @@ call plug#begin('~/.nvim/plugged')
     Plug 'derekwyatt/vim-scala'
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
+    Plug 'godlygeek/tabular'
 call plug#end()
 
 """ Editor settings
 
 "" Leader key
-let mapleader="\<Space>"
+let mapleader=" "
 
 "" Line number/break configuration
 set number 		" Line numbering
