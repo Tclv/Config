@@ -41,9 +41,14 @@ set autoindent		" Starts new line on previous indentation level
 set expandtab           " Use spaces instead of tabs
 set sw=4 sts=4
 
+"" Tex recognize
+au BufNewFile,BufRead *.tex setlocal ft=tex
+
 "" File specific tab sizes
 autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2
 autocmd FileType java,python set sw=4 sts=4
+autocmd FileType make setlocal noexpandtab
+
 
 "" Random
 set showcmd             " Show typed commands on the last line
@@ -104,7 +109,28 @@ let g:UltiSnipsExpandTrigger="<esc>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
+
+" elseif filereadable(system("git rev-parse --show-toplevel") + ".nvimrc_proj")
+
+function! ChompedSystem( ... )
+    return substitute(call('system', a:000), '\n\+$', '', '')
+endfunction
+
+let gitrootconfig = ChompedSystem("git rev-parse --show-toplevel") . '/.nvimrc_proj'
+
+""" Default runbindings
+autocmd Filetype tex map <buffer> <Leader>r :w<CR> :T texfind <bar> xargs latexmk -pvc<CR>
+autocmd Filetype tex map <buffer> <silent> <Leader>o :!open -a "Skim.app" *.pdf<CR>
+autocmd Filetype haskell map <buffer> <silent> <Leader>i :T ghci -Wall<CR>
+autocmd Filetype haskell map <buffer> <silent> <Leader>r :w<CR>:T :! clear<CR>:T :l %<CR>
+autocmd Filetype python map <buffer> <Leader>r :w<CR> :T python %<CR>
+autocmd Filetype python map <buffer> <Leader>t :w<CR> :T nosetests<CR>
+
 """ Read local vim if available in project directory
+if filereadable(gitrootconfig)
+    execute('so ' . gitrootconfig)
+endif
 if filereadable(".nvimrc_proj")
     so .nvimrc_proj
 endif
+

@@ -112,7 +112,7 @@ inoremap hj <Esc>
 autocmd Filetype c,cpp map <buffer> <Leader>r :w<CR> :!make<CR>
 autocmd Filetype python map <buffer> <Leader>r :w<CR> :!python %<CR>
 autocmd Filetype python map <buffer> <Leader>t :w<CR> :!nosetests<CR>
-autocmd Filetype tex map <buffer> <Leader>r :w<CR> :!texfind <bar> xargs latexmk -xelatex<CR>
+autocmd Filetype tex map <buffer> <Leader>r :w<CR> :T texfind <bar> xargs latexmk -xelatex<CR>
 autocmd Filetype sh map <buffer> <Leader>r :w<CR> :!./%<CR>
 autocmd Filetype tex map <silent> <Leader>o :!open *.pdf<CR>
 autocmd Filetype java :ProjectImportDiscover .<CR>
