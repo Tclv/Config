@@ -121,7 +121,7 @@ let gitrootconfig = ChompedSystem("git rev-parse --show-toplevel") . '/.nvimrc_p
 """ Default runbindings
 autocmd Filetype tex map <buffer> <Leader>r :w<CR> :T texfind <bar> xargs latexmk -pvc<CR>
 autocmd Filetype tex map <buffer> <silent> <Leader>o :!open -a "Skim.app" *.pdf<CR>
-autocmd Filetype haskell map <buffer> <silent> <Leader>i :T ghci -Wall<CR>
+autocmd Filetype haskell map <buffer> <silent> <Leader>i :T ghci <CR>
 autocmd Filetype haskell map <buffer> <silent> <Leader>r :w<CR>:T :! clear<CR>:T :l %<CR>
 autocmd Filetype python map <buffer> <Leader>r :w<CR> :T python %<CR>
 autocmd Filetype python map <buffer> <Leader>t :w<CR> :T nosetests<CR>
