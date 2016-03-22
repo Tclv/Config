@@ -11,3 +11,5 @@ function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
 export KEYTIMEOUT=1
 
+alias v nvim
+alias c cd
