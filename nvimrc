@@ -1,14 +1,23 @@
-"" Plugins
+"" Plugin
 call plug#begin('~/.nvim/plugged')
     Plug 'altercation/vim-colors-solarized'
     Plug 'benekastah/neomake'
     Plug 'kassio/neoterm'
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+    ""Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'zchee/deoplete-jedi'
     Plug 'ctrlpvim/ctrlp.vim'
     Plug 'derekwyatt/vim-scala'
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
     Plug 'godlygeek/tabular'
+    Plug 'eagletmt/ghcmod-vim'
+    Plug 'Shougo/vimproc.vim', { 'do' : 'make'}
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'scrooloose/nerdcommenter'
+    Plug 'scrooloose/nerdtree'
+    Plug 'eagletmt/neco-ghc'
 call plug#end()
 
 """ Editor settings
@@ -19,7 +28,8 @@ let mapleader=" "
 "" Line number/break configuration
 set number 		" Line numbering
 set cursorline          " Highlight current line
-set linebreak		" Line breaking 
+set linebreak		" Line breaking
+set showmode            " Show what mode we are in
 
 
 "" Search configuration
@@ -39,13 +49,15 @@ set background=dark
 "" Indents and tabs
 set autoindent		" Starts new line on previous indentation level
 set expandtab           " Use spaces instead of tabs
+set smarttab            " Auto insert and delete according to shiftwidth at start of line
+
 set sw=4 sts=4
 
 "" Tex recognize
 au BufNewFile,BufRead *.tex setlocal ft=tex
 
 "" File specific tab sizes
-autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2
+autocmd FileType ruby,haskell,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2
 autocmd FileType java,python set sw=4 sts=4
 autocmd FileType make setlocal noexpandtab
 
@@ -77,12 +89,15 @@ inoremap hj <Esc>
 tnoremap hj <C-\><C-n>
 
 "" Saving and loading nvimrc
-map <Leader>w :w<CR> 
-map <Leader>cl :source ~/.config/nvim/init.vim<CR>
-map <Leader>co :e ~/.config/nvim/init.vim<CR>
+map <Leader>w :w<CR>
+map <Leader>pl :source ~/.config/nvim/init.vim<CR>
+map <Leader>po :e ~/.config/nvim/init.vim<CR>
+
 
 "" Installing and managing plugins
 map <Leader>pi :PlugInstall<CR>
+map <Leader>pu :PlugUpdate<CR>
+map <Leader>pc :PlugClean<CR>
 
 
 "" Background switcher
@@ -93,12 +108,37 @@ map <Leader>b :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 "" Neomake
 autocmd! BufWritePost * Neomake
 
+map <Leader>lo :lopen<CR>
+map <Leader>lc :lclose<CR>
+
+"" Vim airline
+let g:airline_powerline_fonts = 1
+
 "" Ctrl P
 let g:ctrlp_user_command = 'ag %s -l -g ""'
 
+"" Deoplete
+let g:deoplete#enable_at_startup = 1
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" :deoplete#mappings#manual_complete()
+
+"" Tabularize
+vmap a= :Tabularize /=<CR>
+vmap a: :Tabularize /::<CR>
+vmap a- :Tabularize /-><CR>
+vmap a& :Tabularize /&<CR>
+vmap a\ :Tabularize /\\<CR>
+vmap aa :Tabularize 
+
+"" NerdTREE
+map <Leader>d :NERDTreeToggle<CR>
+
+
 "" YouCompleteMe
-let g:ycm_global_ycm_extra_conf = '~/config/.ycm_extra_conf.py'
-let g:EclimCompletionMethod = 'omnifunc'
+" let g:ycm_global_ycm_extra_conf = '~/config/.ycm_extra_conf.py'
+" let g:EclimCompletionMethod = 'omnifunc'
+" let g:ycm_semantic_triggers = {'haskell' : ['.']}
+" let g:haskellmode_completion_ghc = 0
+" autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
 "" Neoterm
 let g:neoterm_position = 'vertical'
@@ -108,6 +148,18 @@ let g:neoterm_automap_keys = ',tt'
 let g:UltiSnipsExpandTrigger="<esc>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+"" Haskell
+
+"GHC-mod
+let $PATH = $PATH . ':' . expand('~/.cabal/bin')
+
+map <silent> <Leader>gtt :GhcModType<CR>
+map <silent> <Leader>gti :GhcModTypeInsert<CR>
+map <silent> <Leader>gtc :GhcModTypeClear<CR>
+map <silent> <Leader>gfc :GhcModSplitFunCase<CR>
+map <silent> <Leader>gsc :GhcModSigCodegen<CR>
+
 
 
 " elseif filereadable(system("git rev-parse --show-toplevel") + ".nvimrc_proj")
@@ -133,4 +185,5 @@ endif
 if filereadable(".nvimrc_proj")
     so .nvimrc_proj
 endif
+
 
