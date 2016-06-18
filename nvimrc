@@ -21,6 +21,8 @@ call plug#begin('~/.nvim/plugged')
 call plug#end()
 
 """ Editor settings
+" Hard code for virtualenv compatability
+let g:python_host_prog='/usr/local/bin/python'
 
 "" Leader key
 let mapleader=" "
@@ -117,9 +119,9 @@ let g:airline_powerline_fonts = 1
 "" Ctrl P
 let g:ctrlp_user_command = 'ag %s -l -g ""'
 
-"" Deoplete
+"" Deoplete 
 let g:deoplete#enable_at_startup = 1
-inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" :deoplete#mappings#manual_complete()
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-n>" :deoplete#mappings#manual_complete()
 
 "" Tabularize
 vmap a= :Tabularize /=<CR>
@@ -171,7 +173,7 @@ endfunction
 let gitrootconfig = ChompedSystem("git rev-parse --show-toplevel") . '/.nvimrc_proj'
 
 """ Default runbindings
-autocmd Filetype tex map <buffer> <Leader>r :w<CR> :T texfind <bar> xargs latexmk -pvc<CR>
+autocmd Filetype tex map <buffer> <Leader>r :w<CR> :T texbuild<CR>
 autocmd Filetype tex map <buffer> <silent> <Leader>o :!open -a "Skim.app" *.pdf<CR>
 autocmd Filetype haskell map <buffer> <silent> <Leader>i :T ghci <CR>
 autocmd Filetype haskell map <buffer> <silent> <Leader>r :w<CR>:T :! clear<CR>:T :l %<CR>
