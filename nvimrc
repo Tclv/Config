@@ -15,6 +15,7 @@ call plug#begin('~/.nvim/plugged')
     Plug 'Shougo/vimproc.vim', { 'do' : 'make'}
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
+    Plug 'tpope/vim-surround'
     Plug 'scrooloose/nerdcommenter'
     Plug 'scrooloose/nerdtree'
     Plug 'eagletmt/neco-ghc'
