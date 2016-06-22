@@ -22,9 +22,6 @@ call plug#begin('~/.nvim/plugged')
 call plug#end()
 
 """ Editor settings
-" Hard code for virtualenv compatability
-let g:python_host_prog='/usr/local/bin/python'
-
 "" Leader key
 let mapleader=" "
 
@@ -140,22 +137,23 @@ map <Leader>d :NERDTreeToggle<CR>
 " let g:ycm_global_ycm_extra_conf = '~/config/.ycm_extra_conf.py'
 " let g:EclimCompletionMethod = 'omnifunc'
 " let g:ycm_semantic_triggers = {'haskell' : ['.']}
-" let g:haskellmode_completion_ghc = 0
-" autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+let g:haskellmode_completion_ghc = 0
+let g:necoghc_enable_detailed_browse = 1
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
 "" Neoterm
 let g:neoterm_position = 'vertical'
 let g:neoterm_automap_keys = ',tt'
 
 "" Ultisnips
-let g:UltiSnipsExpandTrigger="<esc>"
+let g:UltiSnipsExpandTrigger="<Esc>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 "" Haskell
 
 "GHC-mod
-let $PATH = $PATH . ':' . expand('~/.cabal/bin')
+let $PATH = $PATH . ':' . expand('~/.local/bin')
 
 map <silent> <Leader>gtt :GhcModType<CR>
 map <silent> <Leader>gti :GhcModTypeInsert<CR>
@@ -178,8 +176,9 @@ autocmd Filetype tex map <buffer> <Leader>r :w<CR> :T texbuild<CR>
 autocmd Filetype tex map <buffer> <silent> <Leader>o :!open -a "Skim.app" *.pdf<CR>
 autocmd Filetype haskell map <buffer> <silent> <Leader>i :T ghci <CR>
 autocmd Filetype haskell map <buffer> <silent> <Leader>r :w<CR>:T :! clear<CR>:T :l %<CR>
-autocmd Filetype python map <buffer> <Leader>r :w<CR> :T python %<CR>
+autocmd Filetype python map <buffer> <Leader>r :w<CR> :T python3 %<CR>
 autocmd Filetype python map <buffer> <Leader>t :w<CR> :T nosetests<CR>
+autocmd Filetype c map <buffer> <Leader>r :w<CR> :T make build<CR> :T make run<CR>
 
 """ Read local vim if available in project directory
 if filereadable(gitrootconfig)
