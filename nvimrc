@@ -178,7 +178,7 @@ autocmd Filetype haskell map <buffer> <silent> <Leader>i :T ghci <CR>
 autocmd Filetype haskell map <buffer> <silent> <Leader>r :w<CR>:T :! clear<CR>:T :l %<CR>
 autocmd Filetype python map <buffer> <Leader>r :w<CR> :T python3 %<CR>
 autocmd Filetype python map <buffer> <Leader>t :w<CR> :T nosetests<CR>
-autocmd Filetype c map <buffer> <Leader>r :w<CR> :T make build<CR> :T make run<CR>
+autocmd Filetype c map <buffer> <Leader>r :w<CR> :T clear<CR> :T make run<CR>
 
 """ Read local vim if available in project directory
 if filereadable(gitrootconfig)
