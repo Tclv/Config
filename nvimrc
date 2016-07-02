@@ -120,6 +120,9 @@ let g:ctrlp_user_command = 'ag %s -l -g ""'
 "" Deoplete 
 let g:deoplete#enable_at_startup = 1
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-n>" :deoplete#mappings#manual_complete()
+let g:python_host_prog = '/usr/local/bin/python'
+let g:python3_host_prog = '/usr/local/bin/python3'
+
 
 "" Tabularize
 vmap a= :Tabularize /=<CR>
