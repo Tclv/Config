@@ -14,6 +14,10 @@ export KEYTIMEOUT=1
 alias v=nvim
 alias c=cd
 alias texbuild="texfind | xargs latexmk -pvc"
+alias watch="watch --color"
+
+alias md2pdf="pandoc --latex-engine=xelatex --variable mainfont="palatino linotype" --variable sansfont="helvetica""
+
 
 # ghc-pkg-reset
 # Removes all installed GHC/cabal packages, but not binaries, docs, etc.
