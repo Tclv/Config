@@ -57,7 +57,7 @@ set sw=4 sts=4
 au BufNewFile,BufRead *.tex setlocal ft=tex
 
 "" File specific tab sizes
-autocmd FileType ruby,haskell,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2
+autocmd FileType ruby,haskell,haml,eruby,yaml,html,javascript,sass,cucumber,cabal set ai sw=2 sts=2
 autocmd FileType java,python set sw=4 sts=4
 autocmd FileType make setlocal noexpandtab
 
@@ -158,11 +158,11 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 "GHC-mod
 let $PATH = $PATH . ':' . expand('~/.local/bin')
 
-map <silent> <Leader>gtt :GhcModType<CR>
-map <silent> <Leader>gti :GhcModTypeInsert<CR>
-map <silent> <Leader>gtc :GhcModTypeClear<CR>
-map <silent> <Leader>gfc :GhcModSplitFunCase<CR>
-map <silent> <Leader>gsc :GhcModSigCodegen<CR>
+autocmd FileType haskell map <silent> <Leader>gtt :GhcModType<CR>
+autocmd FileType haskell map <silent> <Leader>gti :GhcModTypeInsert<CR>
+autocmd FileType haskell map <silent> <Leader>gtc :GhcModTypeClear<CR>
+autocmd FileType haskell map <silent> <Leader>gfc :GhcModSplitFunCase<CR>
+autocmd FileType haskell map <silent> <Leader>gsc :GhcModSigCodegen<CR>
 
 
 
