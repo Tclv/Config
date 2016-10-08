@@ -1,6 +1,7 @@
 "" Plugin
 call plug#begin('~/.nvim/plugged')
     Plug 'altercation/vim-colors-solarized'
+    Plug 'morhetz/gruvbox'
     Plug 'benekastah/neomake'
     Plug 'kassio/neoterm'
     ""Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
@@ -20,6 +21,8 @@ call plug#begin('~/.nvim/plugged')
     Plug 'scrooloose/nerdtree'
     Plug 'eagletmt/neco-ghc'
 call plug#end()
+
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 """ Editor settings
 "" Leader key
@@ -43,7 +46,7 @@ nmap <Leader>n :let@/=""<CR>
 "" Syntax and spelling
 syntax enable		" Enables syntax highlighting
 set spell		" Enables spell checking
-colorscheme solarized
+colorscheme gruvbox
 set background=dark
 
 "" Indents and tabs
@@ -177,7 +180,7 @@ let gitrootconfig = ChompedSystem("git rev-parse --show-toplevel") . '/.nvimrc_p
 """ Default runbindings
 autocmd Filetype tex map <buffer> <Leader>r :w<CR> :T texbuild<CR>
 autocmd Filetype tex map <buffer> <silent> <Leader>o :!open -a "Skim.app" *.pdf<CR>
-autocmd Filetype haskell map <buffer> <silent> <Leader>i :T ghci <CR>
+autocmd Filetype haskell map <buffer> <silent> <Leader>i :T stack ghci <CR>
 autocmd Filetype haskell map <buffer> <silent> <Leader>r :w<CR>:T :! clear<CR>:T :l %<CR>
 autocmd Filetype python map <buffer> <Leader>r :w<CR> :T python3 %<CR>
 autocmd Filetype python map <buffer> <Leader>t :w<CR> :T nosetests<CR>
