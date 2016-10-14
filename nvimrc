@@ -1,10 +1,8 @@
 "" Plugin
 call plug#begin('~/.nvim/plugged')
     Plug 'altercation/vim-colors-solarized'
-    Plug 'morhetz/gruvbox'
     Plug 'benekastah/neomake'
     Plug 'kassio/neoterm'
-    ""Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
     Plug 'Shougo/deoplete.nvim'
     Plug 'zchee/deoplete-jedi'
     Plug 'ctrlpvim/ctrlp.vim'
@@ -20,9 +18,10 @@ call plug#begin('~/.nvim/plugged')
     Plug 'scrooloose/nerdcommenter'
     Plug 'scrooloose/nerdtree'
     Plug 'eagletmt/neco-ghc'
+    Plug 'neovimhaskell/haskell-vim'
+    Plug 'morhetz/gruvbox'
 call plug#end()
 
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 """ Editor settings
 "" Leader key
@@ -44,7 +43,7 @@ nmap <Leader>n :let@/=""<CR>
 
 
 "" Syntax and spelling
-syntax enable		" Enables syntax highlighting
+set termguicolors
 set spell		" Enables spell checking
 colorscheme gruvbox
 set background=dark
@@ -102,17 +101,18 @@ map <Leader>pi :PlugInstall<CR>
 map <Leader>pu :PlugUpdate<CR>
 map <Leader>pc :PlugClean<CR>
 
-
 "" Background switcher
 map <Leader>b :let &background = ( &background == "dark"? "light" : "dark" )<CR>
-
 
 """ Plugin configuration
 "" Neomake
 autocmd! BufWritePost * Neomake
+let = g:neomake_haskell_enabled_makers=['hlint', 'hdevtools', 'ghc-mod']
+
 
 map <Leader>lo :lopen<CR>
 map <Leader>lc :lclose<CR>
+
 
 "" Vim airline
 let g:airline_powerline_fonts = 1
@@ -126,6 +126,10 @@ inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-n>" :deoplete#mappings#manua
 let g:python_host_prog = '/usr/local/bin/python'
 let g:python3_host_prog = '/usr/local/bin/python3'
 
+"" Necoghc
+let g:haskellmode_completion_ghc = 0
+let g:necoghc_enable_detailed_browse = 1
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
 "" Tabularize
 vmap a= :Tabularize /=<CR>
@@ -139,14 +143,6 @@ vmap aa :Tabularize
 map <Leader>d :NERDTreeToggle<CR>
 
 
-"" YouCompleteMe
-" let g:ycm_global_ycm_extra_conf = '~/config/.ycm_extra_conf.py'
-" let g:EclimCompletionMethod = 'omnifunc'
-" let g:ycm_semantic_triggers = {'haskell' : ['.']}
-let g:haskellmode_completion_ghc = 0
-let g:necoghc_enable_detailed_browse = 1
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-
 "" Neoterm
 let g:neoterm_position = 'vertical'
 let g:neoterm_automap_keys = ',tt'
@@ -156,37 +152,43 @@ let g:UltiSnipsExpandTrigger="<Esc>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
+""" Language 
 "" Haskell
 
-"GHC-mod
+" GHC-mod
 let $PATH = $PATH . ':' . expand('~/.local/bin')
-
 autocmd FileType haskell map <silent> <Leader>gtt :GhcModType<CR>
 autocmd FileType haskell map <silent> <Leader>gti :GhcModTypeInsert<CR>
 autocmd FileType haskell map <silent> <Leader>gtc :GhcModTypeClear<CR>
 autocmd FileType haskell map <silent> <Leader>gfc :GhcModSplitFunCase<CR>
 autocmd FileType haskell map <silent> <Leader>gsc :GhcModSigCodegen<CR>
 
+" Haskell-vim
+let g:haskell_classic_highlighting = 0
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 
-
-" elseif filereadable(system("git rev-parse --show-toplevel") + ".nvimrc_proj")
-
-function! ChompedSystem( ... )
-    return substitute(call('system', a:000), '\n\+$', '', '')
-endfunction
-
-let gitrootconfig = ChompedSystem("git rev-parse --show-toplevel") . '/.nvimrc_proj'
 
 """ Default runbindings
 autocmd Filetype tex map <buffer> <Leader>r :w<CR> :T texbuild<CR>
 autocmd Filetype tex map <buffer> <silent> <Leader>o :!open -a "Skim.app" *.pdf<CR>
 autocmd Filetype haskell map <buffer> <silent> <Leader>i :T stack ghci <CR>
 autocmd Filetype haskell map <buffer> <silent> <Leader>r :w<CR>:T :! clear<CR>:T :l %<CR>
-autocmd Filetype python map <buffer> <Leader>r :w<CR> :T python3 %<CR>
+autocmd Filetype python map <buffer> <Leader>r :w<CR> :T python3 fnameescape(%)<CR>
 autocmd Filetype python map <buffer> <Leader>t :w<CR> :T nosetests<CR>
 autocmd Filetype c map <buffer> <Leader>r :w<CR> :T clear<CR> :T make run<CR>
 
 """ Read local vim if available in project directory
+function! ChompedSystem( ... )
+    return substitute(call('system', a:000), '\n\+$', '', '')
+endfunction
+
+let gitrootconfig = ChompedSystem("git rev-parse --show-toplevel") . '/.nvimrc_proj'
+
 if filereadable(gitrootconfig)
     execute('so ' . gitrootconfig)
 endif

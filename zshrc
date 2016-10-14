@@ -18,7 +18,7 @@ alias watch="watch --color"
 
 alias md2pdf="pandoc --latex-engine=xelatex --variable mainfont="palatino linotype" --variable sansfont="helvetica""
 
-
+export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
 # ghc-pkg-reset
 # Removes all installed GHC/cabal packages, but not binaries, docs, etc.
 # Use this to get out of dependency hell and start over, at the cost of some rebuilding time.
