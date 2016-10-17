@@ -20,6 +20,7 @@ call plug#begin('~/.nvim/plugged')
     Plug 'eagletmt/neco-ghc'
     Plug 'neovimhaskell/haskell-vim'
     Plug 'morhetz/gruvbox'
+    Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 
@@ -107,7 +108,7 @@ map <Leader>b :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 """ Plugin configuration
 "" Neomake
 autocmd! BufWritePost * Neomake
-let = g:neomake_haskell_enabled_makers=['hlint', 'hdevtools', 'ghc-mod']
+""let = g:neomake_haskell_enabled_makers=['hlint', 'hdevtools', 'ghc-mod']
 
 
 map <Leader>lo :lopen<CR>
@@ -177,8 +178,8 @@ let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 autocmd Filetype tex map <buffer> <Leader>r :w<CR> :T texbuild<CR>
 autocmd Filetype tex map <buffer> <silent> <Leader>o :!open -a "Skim.app" *.pdf<CR>
 autocmd Filetype haskell map <buffer> <silent> <Leader>i :T stack ghci <CR>
-autocmd Filetype haskell map <buffer> <silent> <Leader>r :w<CR>:T :! clear<CR>:T :l %<CR>
-autocmd Filetype python map <buffer> <Leader>r :w<CR> :T python3 fnameescape(%)<CR>
+autocmd Filetype haskell map <buffer> <silent> <Leader>r :w<CR>:T :! clear<CR>:T :reload<CR>
+autocmd Filetype python map <buffer> <Leader>r :w<CR> :T python3 %<CR>
 autocmd Filetype python map <buffer> <Leader>t :w<CR> :T nosetests<CR>
 autocmd Filetype c map <buffer> <Leader>r :w<CR> :T clear<CR> :T make run<CR>
 

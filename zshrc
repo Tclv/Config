@@ -4,6 +4,8 @@ plugins=(git sudo brew autoenv virtualenv virtualenvwrapper)
 source $ZSH/oh-my-zsh.sh
 
 # launchctl setenv MATLAB_JAVA /Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre
+export EDITOR="nvim"
+export GIT_EDITOR="nvim"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 # User Config
