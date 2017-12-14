@@ -1,9 +1,9 @@
 "" Plugin
-call plug#begin('~/.nvim/plugged')
+call plug#begin('~/.local/share/nvim/plugged')
     Plug 'altercation/vim-colors-solarized'
-    Plug 'benekastah/neomake'
+    Plug 'benekastah/neomake' 
     Plug 'kassio/neoterm'
-    Plug 'Shougo/deoplete.nvim'
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'zchee/deoplete-jedi'
     Plug 'ctrlpvim/ctrlp.vim'
     Plug 'derekwyatt/vim-scala'
@@ -21,10 +21,15 @@ call plug#begin('~/.nvim/plugged')
     Plug 'neovimhaskell/haskell-vim'
     Plug 'morhetz/gruvbox'
     Plug 'airblade/vim-gitgutter'
+    Plug 'rust-lang/rust.vim'
+    Plug 'sebastianmarkow/deoplete-rust'
+    Plug 'vim-pandoc/vim-pandoc'
+    Plug 'vim-pandoc/vim-pandoc-syntax'
 call plug#end()
 
 
 """ Editor settings
+set mouse=a
 "" Leader key
 let mapleader=" "
 
@@ -58,6 +63,8 @@ set sw=4 sts=4
 
 "" Tex recognize
 au BufNewFile,BufRead *.tex setlocal ft=tex
+
+au BufNewFile,BufRead *.text setlocal ft=pandoc
 
 "" File specific tab sizes
 autocmd FileType ruby,haskell,haml,eruby,yaml,html,javascript,sass,cucumber,cabal set ai sw=2 sts=2
@@ -126,6 +133,7 @@ let g:deoplete#enable_at_startup = 1
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-n>" :deoplete#mappings#manual_complete()
 let g:python_host_prog = '/usr/local/bin/python'
 let g:python3_host_prog = '/usr/local/bin/python3'
+let g:deoplete#sources#jedi#python_path = '/usr/local/bin/python3'
 
 "" Necoghc
 let g:haskellmode_completion_ghc = 0
@@ -147,6 +155,13 @@ map <Leader>d :NERDTreeToggle<CR>
 "" Neoterm
 let g:neoterm_position = 'vertical'
 let g:neoterm_automap_keys = ',tt'
+let g:neoterm_use_relative_path = 1
+
+function! s:RunIPython()
+  let cmd = "%run " . expand('%') . "\n"
+  silent! call neoterm#exec(cmd)
+endfunction
+command! -nargs=* RunIPython call s:RunIPython()
 
 "" Ultisnips
 let g:UltiSnipsExpandTrigger="<Esc>"
@@ -154,6 +169,12 @@ let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 """ Language 
+
+"" Pandoc configuration
+let g:pandoc#syntax#conceal#use=0
+let g:pandoc#modules#disables = []
+let g:pandoc#formatting#mode="ha"
+
 "" Haskell
 
 " GHC-mod
@@ -179,9 +200,15 @@ autocmd Filetype tex map <buffer> <Leader>r :w<CR> :T texbuild<CR>
 autocmd Filetype tex map <buffer> <silent> <Leader>o :!open -a "Skim.app" *.pdf<CR>
 autocmd Filetype haskell map <buffer> <silent> <Leader>i :T stack ghci <CR>
 autocmd Filetype haskell map <buffer> <silent> <Leader>r :w<CR>:T :! clear<CR>:T :reload<CR>
-autocmd Filetype python map <buffer> <Leader>r :w<CR> :T python3 %<CR>
+autocmd Filetype haskell map <buffer> <silent> <Leader>t :w<CR>:T :! clear<CR>:T :l %<CR>
+autocmd Filetype python map <buffer> <Leader>r :w<CR> :RunIPython() <CR>
+autocmd Filetype python map <buffer> <Leader>i :w<CR> :T ipython3<CR>
 autocmd Filetype python map <buffer> <Leader>t :w<CR> :T nosetests<CR>
 autocmd Filetype c map <buffer> <Leader>r :w<CR> :T clear<CR> :T make run<CR>
+autocmd Filetype make map <buffer> <Leader>r :w <CR> :T clear<CR> :T make all<CR>
+autocmd Filetype make map <buffer> <Leader>t :w <CR> :T clear<CR> :T make clean<CR>
+autocmd Filetype cpp map <buffer> <Leader>r :w <CR> :T clear<CR> :T make run<CR>
+autocmd Filetype cpp map <buffer> <Leader>t :w <CR> :T clear<CR> :T make clean<CR>
 
 """ Read local vim if available in project directory
 function! ChompedSystem( ... )
@@ -196,5 +223,7 @@ endif
 if filereadable(".nvimrc_proj")
     so .nvimrc_proj
 endif
+
+
 
 
